@@ -1,6 +1,6 @@
 # Import OS to get environment variables
 import os
-
+import requests
 # Get Flask and associated modules
 from flask import Flask, request, render_template, jsonify
 
@@ -18,14 +18,21 @@ env = os.environ.get('appenv', 'Development')
 @app.route('/')
 def hello_world():
     target = request.args.get('target', 'World')
-    payload={"author":"test","content":"test"}
-    return render_template('body.html',payload=payload,env=env)
+    resp=requests.get("https://api.quotable.io/random")
+    json=resp.json()
+    #payload={"author":"test","content":"test"}
+
+    return render_template('body.html',payload=json,env=env)
 
 # API Root
 @app.route('/api/')
 def api_world():
-    target = request.args.get('target', 'World')
-    return jsonify(target=target,environment=env)
+    
+    resp=requests.get("https://api.quotable.io/random")
+    json=resp.json()
+    #payload={"author":"test","content":"test"}
+
+    return render_template('body.html',payload=json,env=env)
 
 # API Target
 
