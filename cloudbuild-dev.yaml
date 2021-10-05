@@ -1,0 +1,12 @@
+steps:
+  # build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/cr-flask-dev', '.']
+  # push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/cr-flask-dev']
+  # Deploy container image to Cloud Run development service
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['beta', 'run', 'deploy', 'cr-flask-dev', '--allow-unauthenticated', '--image', 'gcr.io/$PROJECT_ID/cr-flask-dev', '--region', 'us-central1', '--set-env-vars', 'appenv=Development']
+images:
+- gcr.io/$PROJECT_ID/cr-flask-dev
