@@ -16,18 +16,15 @@ env = os.environ.get('appenv', 'Development')
 
 # Root
 @app.route('/')
-def hello_world():
-    target = request.args.get('target', 'World')
+def default_route():
     resp=requests.get("https://api.quotable.io/random")
     json=resp.json()
     #payload={"author":"test","content":"test"}
-
     return render_template('body.html',payload=json,env=env)
 
 # API Root
 @app.route('/api/')
 def api_world():
-    
     resp=requests.get("https://api.quotable.io/random")
     json=resp.json()
     #payload={"author":"test","content":"test"}
