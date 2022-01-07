@@ -26,7 +26,9 @@ def default_route():
         json["keycode"]= "(" + keyCode + ")"
     
     #payload={"author":"test","content":"test"}
-  
+    if(keyCode=="94"):
+        json["author"]="NK"
+        json["content"]="1.Youtube - Streaming. \n 2.Power Automate Connector. "
     return render_template('body.html',payload=json,env=env)
 
 # API Root
