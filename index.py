@@ -2,7 +2,7 @@
 import os
 import requests
 # Get Flask and associated modules
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify,request
 
 # Define the Flask app name from the filename
 app = Flask(__name__)
@@ -17,9 +17,16 @@ env = os.environ.get('appenv', 'Development')
 # Root
 @app.route('/')
 def default_route():
-    resp=requests.get("https://api.quotable.io/random")
+    resp=requests.get("https://api.quotable.io/random?maxLength=120")
     json=resp.json()
+    keyCode = request.args.get('k')
+    if keyCode is None:
+        keyCode=""
+    else:
+        json["keycode"]= "(" + keyCode + ")"
+    
     #payload={"author":"test","content":"test"}
+  
     return render_template('body.html',payload=json,env=env)
 
 # API Root
